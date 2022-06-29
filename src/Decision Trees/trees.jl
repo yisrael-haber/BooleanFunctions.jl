@@ -73,7 +73,7 @@ function print_tree_at_root(binaryTree::tree)
     print_tree_from_node(binaryTree, get_root(binaryTree))
 end
 
-function eval(binaryTree::tree, vec::Tuple)
+function evaluate_tree_at_vec(binaryTree::tree, vec::Tuple)
     if length(vec) < binaryTree.max_var println("Error: vector doesn't have enough values for the tree"); return false end
     curr_node = get_root(binaryTree)
     while true
