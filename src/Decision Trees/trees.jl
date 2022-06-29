@@ -33,6 +33,8 @@ get_next_left_final(vertex::node, var::Int64) = node(true, var, node[], string(v
 
 get_next_right_final(vertex::node, var::Int64) = node(true, var, node[], string(vertex.code, '1'))
 
+get_root(binaryTree::tree) = binaryTree.nodes[""]
+
 function add_nodes_at!(binaryTree::tree, vertex::node, var1::Int64, final1::Bool, var2::Int64, final2::Bool)
     if vertex.final println("Cannot add nodes: the value is final, change node state and retry"); return false end
     if length(vertex.children) != 0 println("Cannot add nodes: children already exist, try changing the children"); return false end
