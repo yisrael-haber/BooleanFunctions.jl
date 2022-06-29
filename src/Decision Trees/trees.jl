@@ -9,9 +9,10 @@ mutable struct tree
     nodes::Dict{String, node}
     depth::Int64
     size::Int64
+    max_var::Int64
 end
 
-init_tree_at_node(vertex::node) = if vertex.code == "" tree(Dict(vertex.code=>vertex), 1, 1) else println("Can't init tree with non-trivial code"); return false end
+init_tree_at_node(vertex::node) = if vertex.code == "" tree(Dict(vertex.code=>vertex), 1, 1, vertex.variable) else println("Can't init tree with non-trivial code"); return false end
 
 init_tree() = init_tree_at_node(node(false, 1, node[], ""))
 
@@ -40,6 +41,8 @@ function add_nodes_at!(binaryTree::tree, vertex::node, var1::Int64, final1::Bool
     if length(vertex.children) != 0 println("Cannot add nodes: children already exist, try changing the children"); return false end
     if final1 left = get_next_left_final(vertex, var1) else left = get_next_left(vertex, var1) end
     if final2 right = get_next_right_final(vertex, var2) else right = get_next_right(vertex, var2) end
+    if !final1 binaryTree.max_var = maximum([binaryTree.max_var, var1]) end 
+    if !final2 binaryTree.max_var = maximum([binaryTree.max_var, var2]) end 
     vertex.children = [left, right]
     if length(vertex.code) == binaryTree.depth binaryTree.depth += 1 end
     binaryTree.size += 1
@@ -64,6 +67,20 @@ end
 function print_tree_from_node(binaryTree::tree, vertex::node)
     println("printing tree from node with code -$(vertex.code)-, if empty printing full tree")
     println(get_node_string(binaryTree, binaryTree.nodes[vertex.code], "", 0, ""))
+end
+
+function print_tree_at_root(binaryTree::tree)
+    print_tree_from_node(binaryTree, get_root(binaryTree))
+end
+
+function eval(binaryTree::tree, vec::Tuple)
+    if length(vec) < binaryTree.max_var println("Error: vector doesn't have enough values for the tree"); return false end
+    curr_node = get_root(binaryTree)
+    while true
+        if curr_node.final return curr_node.variable end
+        if length(curr_node.children)==0 println("Error: no final value for this path yet"); return false end
+        if vec[curr_node.variable]==0 curr_node = curr_node.children[1] else curr_node = curr_node.children[2] end
+    end
 end
 
 # function main()
