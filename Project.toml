@@ -1,6 +1,6 @@
 name = "BooleanFunctions"
 uuid = "cfa75f50-c08d-4571-b7b5-f824a70ed152"
-authors = ["Yisrael Haber <yisraelshacharhaber2@gmail.com>"]
+authors = ["Yisrael Haber <yhssea@protonmail.com>"]
 version = "0.1.0"
 
 [deps]
