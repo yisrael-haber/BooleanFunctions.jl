@@ -3,7 +3,7 @@ module BooleanFunctions
 # If it is giving you issues with github run "export JULIA_PKG_USE_CLI_GIT=true" from terminal, and then run from julia 
 # 
 
-include("Decision Trees/trees.jl")
+include("Decision Trees/binary_trees.jl")
 
 export 
 
