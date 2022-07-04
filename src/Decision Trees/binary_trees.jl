@@ -53,14 +53,15 @@ function update_size_and_depth!(binaryTree::tree, vertex::node)
     binaryTree.size += 1
 end
 
-function vertex_check(vertex::node)
+function vertex_check(vertex::node, binTree::tree)
+    if vertex.code ∉ keys(binTree.nodes) println("Cannot add nodes, the source node does not exist yet in the tree"); return false end
     if vertex.final println("Cannot add nodes: the value is final, change node state and retry"); return false end
     if length(vertex.children) != 0 println("Cannot add nodes: children already exist, try changing the children"); return false end
     return true
 end
 
 function add_nodes_at!(binaryTree::tree, vertex::node, var1::Int64, final1::Bool, var2::Int64, final2::Bool)
-    if !vertex_check(vertex) return false end
+    if !vertex_check(vertex, binaryTree) return false end
     left, right = get_next_nodes(vertex, var1, final1, var2, final2)
     vertex.children = [left, right]
     update_size_and_depth!(binaryTree, vertex)
